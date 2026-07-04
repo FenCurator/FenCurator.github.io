@@ -1,13 +1,40 @@
 body {
-    /***
-      ADD YOUR CUSTOM STYLING HERE. (INSIDE THE body {...} section.)
-      IT WILL TAKE PRECEDENCE OVER THE STYLING IN THE STYLE.CSS FILE.
-   ***/
-    //  background-color: white;
-    //  .content {
-    //   font-size: 14px;
-    //  }
-    //  h1 {
-    //   color: black;
-    //  }
+  --background-primary: #1c1713;
+  --background-primary-alt: #241d18;
+  --background-secondary: #2d241d;
+  --background-secondary-alt: #3a2b20;
+  --text-normal: #f4e7d0;
+  --text-muted: #d2bfa4;
+  --text-faint: #9a8468;
+  --text-accent: #f4a259;
+  --text-accent-hover: #ffd08a;
+  --link-color: #ffb86b;
+  --link-color-hover: #ffd38f;
+  --interactive-accent: #e7793f;
+  --dg-content-max-width: 780px;
+  --dg-content-font-size: 18px;
+  --dg-content-line-height: 1.72;
+}
+
+.markdown-preview-view h1,
+.markdown-preview-view h2,
+.markdown-preview-view h3,
+.content h1,
+.content h2,
+.content h3 {
+  color: #ffd08a;
+}
+
+blockquote {
+  border-left: 3px solid #f4a259;
+  color: #f2d7b5;
+  background: rgba(244, 162, 89, 0.08);
+  padding: 0.75rem 1rem;
+  border-radius: 0 10px 10px 0;
+  font-style: normal;
+}
+
+img {
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
 }
