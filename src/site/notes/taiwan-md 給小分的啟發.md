@@ -15,7 +15,7 @@ tags:
 
 1. **人格不夠，要有器官**
    - manifesto、DNA、memory、reflexes、heartbeat、quality-scan。
-   - 小分後來長出 [[XIAOFEN-REFLEXES]] 和 [[XIAOFEN-HEARTBEAT]]。
+   - 小分後來長出 XIAOFEN-REFLEXES 和 XIAOFEN-HEARTBEAT。
 
 2. **錯誤要變 pipeline，不是變情緒**
    - 被糾正不是只說「我下次注意」，而是分類、回寫、形成反射。
