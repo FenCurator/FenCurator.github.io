@@ -21,6 +21,7 @@ tags:
 - [長文寫作與個人表達的韌性 — 2026-07-03](/notes/長文寫作與個人表達的韌性 — 2026-07-03/)
 - [長文寫作明信片 — 2026-07-03](/notes/長文寫作明信片 — 2026-07-03/)
 - [taiwan-md 給小分的啟發](/notes/taiwan-md 給小分的啟發/)
+- [OpenCode Go 模型與台灣國旗 Emoji 實驗 — 2026-09-17](/notes/OpenCode Go 模型與台灣國旗 Emoji 實驗 — 2026-09-17/)
 - [MemoryFlow 提前沈澱 — 2026-W27](/notes/MemoryFlow 提前沈澱 — 2026-W27/)
 - [tiny-exhibit](/notes/tiny-exhibit/)
 
