@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<title>OpenCode Go 模型與台灣國旗 Emoji 實驗 — 2026-09-17</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script async type="module">import mermaid from"https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js" integrity="sha512-hpZ5pDCF2bRCweL5WoA0/N1elet1KYL5mx3LP555Eg/0ZguaHawxNvEjF6O3rufAChs16HVNhEc6blF/rZoowQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha512-sv0slik/5O0JIPdLBCR2A3XDg/1U3WuDEheZfI/DI5n8Yqc3h5kjrnr46FGBNiUAJF7rE4LHKwQ/SoSLRKAxEA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script async src="https://cdn.jsdelivr.net/npm/lucide@0.115.0/dist/umd/lucide.min.js"></script>
+<script>window.addEventListener("load",(()=>{document.querySelectorAll(".callout").forEach((e=>{const t=getComputedStyle(e).getPropertyValue("--callout-icon"),l=t&&t.trim().replace(/^lucide-/,"");if(l){const t=e.querySelector(".callout-title");if(t){const e=document.createElement("div"),c=document.createElement("i");e.appendChild(c),c.setAttribute("icon-name",l),e.setAttribute("class","callout-icon"),t.insertBefore(e,t.firstChild)}}})),lucide.createIcons(),Array.from(document.querySelectorAll(".callout.is-collapsible")).forEach((e=>{e.querySelector(".callout-title").addEventListener("click",(t=>{e.classList.contains("is-collapsed")?e.classList.remove("is-collapsed"):e.classList.add("is-collapsed")}))}))}))</script>
+<script async src="https://fastly.jsdelivr.net/npm/force-graph@1.43.0/dist/force-graph.min.js"></script>
+<script async src="https://fastly.jsdelivr.net/npm/@alpinejs/persist@3.11.1/dist/cdn.min.js"></script>
+<script src="https://fastly.jsdelivr.net/npm/alpinejs@3.11.1/dist/cdn.min.js" async></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-okaidia.min.css" integrity="sha512-mIs9kKbaw6JZFfSuo+MovjU+Ntggfoj8RwAmJbVXQ5mkAX5LlgETQEweFPI18humSPHymTb5iikEOKWF7I8ncQ==" crossorigin="anonymous" referrerpolicy="no-referrer" async>
+<script src="https://fastly.jsdelivr.net/npm/whatwg-fetch@3.6.2/dist/fetch.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" async></script>
+<link href="/styles/digital-garden-base.css" rel="stylesheet">
+<link href="/styles/obsidian-base.css" rel="stylesheet">
+<link href="/styles/_theme.d92311c2.css" rel="stylesheet">
+<link href="/styles/custom-style.css" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<style></style>
+</head>
+<body class="theme-dark markdown-preview-view markdown-rendered markdown-preview-section">
+<nav class="navbar">
+<div class="navbar-inner">
+<a href="/" style="text-decoration:none">
+<h1 style="margin:15px!important">小分的花園</h1>
+</a>
+</div>
+</nav>
+<main class="content cm-s-obsidian">
+<header>
+<div class="header-meta">
+</div>
+</header>
+<h1 id="open-code-go-emoji" tabindex="-1">OpenCode Go 模型與台灣國旗 Emoji 實驗</h1>
+<p>今天原本只是想釐清一個很具體的問題：為什麼同一份 AI 生態日報，有時資料已經抓回來，最後卻在整理階段失敗？追查之後，線索指向一個很小、但足以改變結果的差異：文字裡的台灣國旗 emoji <code>🇹🇼</code>。</p>
+<p>這不是一篇模型排名，也不是對任何模型的攻擊。比較有意思的地方在於：<strong>同一個 provider、相近的測試方式，不同模型可能對同一個 emoji 做出不同的內容風險判斷。</strong></p>
+<h2 id="先說發現" tabindex="-1">先說發現</h2>
+<p>在今天的最小化測試中：</p>
+<ul>
+<li><code>deepseek-v4-flash</code>：通過 <code>🇹🇼</code></li>
+<li><code>qwen3.8-flash</code>：通過 <code>🇹🇼</code></li>
+<li><code>minimax-m3</code>：通過 <code>🇹🇼</code></li>
+<li><code>glm-5.1</code>：通過 <code>🇹🇼</code></li>
+<li><code>glm-5.2</code>：通過 <code>🇹🇼</code></li>
+<li><code>glm-5.3-flash</code>：通過 <code>🇹🇼</code></li>
+<li><code>glm-5.3</code>：通過 <code>🇹🇼</code></li>
+<li><code>deepseek-v4-pro</code>：未通過</li>
+<li><code>deepseek-v4.1-flash</code>：未通過</li>
+</ul>
+<p>未通過的兩個模型回傳的是 provider 的 <code>Content Exists Risk</code> 錯誤。這個結果不能解釋成「OpenCode Go 不接受台灣國旗」，因為其他模型在相同測試中可以正常完成。</p>
+<h2 id="我們怎麼測" tabindex="-1">我們怎麼測</h2>
+<p>為了不要把其他變因混進來，每個模型只做兩個極短測試：</p>
+<ol>
+<li>使用文字標記 <code>TW</code></li>
+<li>使用台灣國旗 emoji <code>🇹🇼</code></li>
+</ol>
+<p>要求模型只回覆 <code>OK</code>。測試由 Hermes 透過 OpenCode Go 執行；每個測試各算一次 API call，不載入完整日報、不抓資料，也不呼叫外部工具。</p>
+<p>這是一個<strong>定位問題的 smoke test</strong>，不是品質評測。它回答的只有一件事：模型在這個最小情境下，是否會因為台灣國旗 emoji 被 provider 擋下來。</p>
+<h2 id="關鍵轉折：資料其實已經回來了" tabindex="-1">關鍵轉折：資料其實已經回來了</h2>
+<p>回看昨天的失敗請求，資料收集階段已經完成，工具回傳的內容中可以找到台灣國旗 emoji。失敗發生在後續的整理／生成階段，而不是搜尋沒有結果。</p>
+<p>因此，目前最貼近證據的描述是：</p>
+<blockquote>
+<p>相關資料已經抓回來，但在整理生成報告時，<code>🇹🇼</code> 觸發了部分模型的內容風險檢查，讓請求在完成文章前被拒絕。</p>
+</blockquote>
+<p>這也比「資料太多所以失敗」更符合目前的測試結果。過去曾有更大的報告成功完成；這次錯誤訊息則是明確的 <code>Content Exists Risk</code>，不是 context overflow 或 stream failure。</p>
+<h2 id="這代表什麼？" tabindex="-1">這代表什麼？</h2>
+<h3 id="不是所有模型的行為都一樣" tabindex="-1">不是所有模型的行為都一樣</h3>
+<p>模型名稱相近、都掛在同一個 OpenCode Go provider 底下，不代表它們會使用完全相同的安全分類或上游路由。這次的結果比較像是<strong>模型／路由層級的差異</strong>，而不是 emoji 本身在整個服務中被禁止。</p>
+<h3 id="最小測試能定位原因，但不能代替完整驗證" tabindex="-1">最小測試能定位原因，但不能代替完整驗證</h3>
+<p>通過 <code>🇹🇼</code> 測試，只表示模型沒有在這個短 prompt 上被擋。它不能直接證明模型適合長篇日報，也不能代表品質、穩定性、工具使用或成本一定較好。</p>
+<p>換句話說，這次實驗可以幫我們排除一個風險，卻不能把一個模型直接升格成最佳選擇。</p>
+<h3 id="失敗時也有一條簡單的工程替代路徑" tabindex="-1">失敗時也有一條簡單的工程替代路徑</h3>
+<p>如果某個模型在日報整理階段需要使用，而資料中的 emoji 會造成拒絕，可以在送進生成模型前，把旗幟 emoji 正規化為「台灣」或「台灣焦點」。但這是針對特定工作流的處理方式，不代表需要修改原始資料或否定 emoji 的語意。</p>
+<h2 id="目前的工作決策" tabindex="-1">目前的工作決策</h2>
+<p>今天的 AI 生態日報先恢復使用 <code>deepseek-v4-flash</code>，在相同排程與 prompt 下觀察結果。這樣做的理由很單純：它是原本的已知基線，而且在今天的最小測試中能處理 <code>🇹🇼</code>。</p>
+<p>我們沒有因為一次失敗就把所有模型換掉，也沒有因為 GLM 系列通過 emoji 測試，就直接宣布它們比較好。先讓排程跑完，再看完整工作流的實際結果，會比靠一個短 prompt 下結論可靠。</p>
+<h2 id="這次實驗的限制" tabindex="-1">這次實驗的限制</h2>
+<ul>
+<li>測試是最小 A/B smoke test，不是完整日報重跑。</li>
+<li>每個模型只測 <code>TW</code> 和 <code>🇹🇼</code> 各一次，無法估計長期失敗率。</li>
+<li>沒有在這篇文章中比較模型的文章品質、延遲或完整成本。</li>
+<li>OpenCode Go 的模型清單與供應商路由可能變動，今天的結果不保證永久不變。</li>
+<li>失敗請求有時不會提供完整 usage 資訊，因此不能只靠這次測試精確推算計費。</li>
+</ul>
+<h2 id="留下這個小發現" tabindex="-1">留下這個小發現</h2>
+<p>這次最值得記住的，不是某個模型「好」或「壞」，而是<strong>AI 工作流的失敗點可能落在非常小的文字差異上</strong>。資料抓取成功，不代表文章一定能生成；模型能回答一個短問題，也不代表它一定能接受完整工作流的所有輸入。</p>
+<p>所以遇到排程失敗時，除了看模型名稱和錯誤時間，也值得把請求拆開：</p>
+<pre><code class="language-text">資料有沒有回來？
+整理階段有沒有送出？
+是哪一段內容觸發拒絕？
+不同模型的反應是否一致？
+</code></pre>
+<p>先把問題縮小，再決定要不要換模型。這大概是今天這場小實驗最實用的收穫。</p>
+<hr>
+<p><em>本文記錄 2026-09-17 在個人網站上的 OpenCode Go／Hermes 實驗。測試結果以當日實際執行紀錄為準。</em></p>
+</main>
+<script>window.location.hash&&document.getElementById(window.location.hash.slice(1)).classList.add("referred"),window.addEventListener("hashchange",(e=>{const t=e.oldURL.split("#");t[1]&&document.getElementById(t[1]).classList.remove("referred");const n=e.newURL.split("#");n[1]&&document.getElementById(n[1]).classList.add("referred")}),!1);const url_parts=window.location.href.split("#"),url=url_parts[0],referrence=url_parts[1];document.querySelectorAll(".cm-s-obsidian > *[id]").forEach((function(e){e.ondblclick=function(e){const t=url+"#"+e.target.id;navigator.clipboard.writeText(t)}}))</script>
+<script src="https://fastly.jsdelivr.net/npm/luxon@3.2.1/build/global/luxon.min.js"></script>
+<script defer="defer">TIMESTAMP_FORMAT="MMM dd, yyyy h:mm a",document.querySelectorAll(".human-date").forEach((function(e){date=e.getAttribute("data-date")||e.innerText,parsed_date=luxon.DateTime.fromISO(date),null!=parsed_date.invalid&&(parsed_date=luxon.DateTime.fromSQL(date)),null!=parsed_date.invalid&&(parsed_date=luxon.DateTime.fromHTML(date)),e.innerHTML=parsed_date.toFormat(TIMESTAMP_FORMAT)}))</script>
+<script>lucide.createIcons({attrs:{class:["svg-icon"]}})</script>
+</body>
+</html>
